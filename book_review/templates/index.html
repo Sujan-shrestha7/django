@@ -1,13 +1,18 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Book review</title>
-</head>
-<body>
-    <div>
-        <h1>this is an index pagess</h1>
-    </div>
-</body>
+<html>
+    <head></head>
+    <body>
+        {% include 'nav.html' %}
+        {% block content %}
+        <h1>book title</h1>
+        <button><a href="{%url 'new_book' %}">New Book</a></button>
+        {% for book in books %}
+        <h1><a href="{% url 'book_details' book.id %}">{{book.title}}</a></h1>
+        <ul>
+            <li>{{book.author}}</li>
+            <li>{{book.description}}</li>
+            <li>{{book.published_date}}</li>
+        </ul>
+        {% endfor %}
+        {%endblock content %}
+    </body>
 </html>
