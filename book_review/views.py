@@ -36,3 +36,15 @@ def delete_book(request,book_id):
     book = Book.objects.get(id=book_id)
     book.delete()
     return redirect("home")
+
+
+def edit_book(request,book_id):
+    book = Book.objects.get(id=book_id)
+    if request.method =="POST":
+        form = BookForm(request.POST,instance=book)
+        if form.is_valid():
+            form.save()
+    else:
+        form = BookForm(instance=book)
+    context = {'form': form}
+    return render(request, 'new_book.html',context)
