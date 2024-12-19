@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render,redirect,get_object_or_404
 from django.http import HttpResponse
 from .models import Book
 from django.http import JsonResponse
@@ -30,3 +30,9 @@ def new_book(request):
         form= BookForm()
     context = {'form':form}
     return render(request,'new_book.html',context)
+
+
+def delete_book(request,book_id):
+    book = Book.objects.get(id=book_id)
+    book.delete()
+    return redirect("home")
