@@ -6,6 +6,7 @@ class Book(models.Model):
     author = models.CharField(max_length=150)
     published_date=models.DateField(null=True,blank=True)
     description=models.TextField(null=True,blank=True)
+    cover_image = models.ImageField(upload_to='cover_image/',null=True,blank=True)
     created_at=models.DateTimeField(auto_now_add=True)
     updated_at=models.DateTimeField(auto_now=True)
 
