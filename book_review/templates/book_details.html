@@ -1,14 +1,55 @@
-{%extends 'base.html' %}
-{%block content%}
-<h1>Details Page </h1>
+{% extends "base.html" %}
 
-<form action="" method="POST">
-<h3>{{books.title}}</h3>
-<p>Author:{{books.author}}</p>
-<p>Description:{{books.published_date}}</p>
-<p>Description:{{books.description}}</p>
+{% block content %}
+<h1>Details Page</h1>
 
-<button><a href="{%url 'delete_book' books.id %}">Delete</a></button>
-<button><a href="{%url 'edit_book' books.id %}">Edit Book</a></button>
-</form>
+    <h3>{{book.title}}</h3>
+    <p>Description: {{book.description}}</p>
+    <p>Author: {{book.author}}</p>
+    <p>Date : {{book.published_date}}</p>
+    <button>
+        <a href="{% url "edit_book" book.id %}">Edit</a>
+    </button>
+    <button>
+        <a href="{% url "delete_book" book.id %}">Delete</a>
+    </button>
+    <br>
+    <hr>
+
+
+    <div>
+        <h1>Reivews</h1>
+        {% for review in reviews %}
+            <h1>{{review.user.username}} - {{review.ratings}} stars</h1>
+            <p>{{review.content}}</p>
+            {% include "edit_review.html" %}
+            <button onclick="showEditForm({{review.id}})">Edit</button>
+            <button>
+                <a href="{% url "delete_review" review.id %}">Delete</a>
+            </button>
+        {% endfor %}
+    </div>
+    <hr>
+    <div>
+        <form action="{% url "add_review" book.id %}" method='post'>
+            {% csrf_token %}
+            <div>
+                <label for="ratings">Ratings</label>
+                <select name="ratings" id="ratings">
+                    <option value="">Select</option>
+                    {% for rating in ratings %}
+                        <option value="{{rating.0}}">{{rating.1}}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div>
+                <label for="content">Review Contetnt</label>
+                <textarea name="content" id="content"></textarea>
+            </div>
+            <div>
+                <input type="submit" value="Submit">
+            </div>
+        </form>
+    </div>
+
 {% endblock content %}
